@@ -110,6 +110,7 @@ public abstract class Session<C> implements TranscriptListener {
     }
 
     public Session<?> withRegistry(final VaultRegistry registry) {
+		System.out.println("Session.withRegistriy()");
         this.registry = registry;
         return this;
     }
@@ -279,6 +280,7 @@ public abstract class Session<C> implements TranscriptListener {
      */
     @SuppressWarnings("unchecked")
     public <T> T getFeature(final Class<T> type) {
+		System.out.println("Session.getFeature()");
         metrics.increment(type);
         return this.getFeature(type, this._getFeature(type));
     }
@@ -292,6 +294,7 @@ public abstract class Session<C> implements TranscriptListener {
      */
     @SuppressWarnings("unchecked")
     public <T> T getFeature(final Class<T> type, final T feature) {
+		System.out.println("Session.getFeature(,)");
         return registry.getFeature(this, type, feature);
     }
 
@@ -303,6 +306,7 @@ public abstract class Session<C> implements TranscriptListener {
      */
     @SuppressWarnings("unchecked")
     public <T> T _getFeature(final Class<T> type) {
+		System.out.println("Session._getFeature()");
         if(type == Upload.class) {
             return (T) new DefaultUploadFeature(this.getFeature(Write.class));
         }

@@ -91,23 +91,29 @@ public class DefaultVaultRegistry extends CopyOnWriteArraySet<Vault> implements 
      * @return Open or disabled vault
      */
     public Vault find(final Session session, final Path file, final boolean lookup) throws VaultUnlockCancelException {
+		System.out.printf("DefaultVaultRegistry.find(,file=%s, lookup=%s)\n", file, lookup);
         for(Vault vault : this) {
             if(vault.contains(file)) {
                 if(log.isDebugEnabled()) {
                     log.debug(String.format("Found vault %s for file %s", vault, file));
                 }
+				System.out.printf("Found vault %s for file %s\n", vault, file);
                 return vault;
             }
         }
         if(lookup) {
+			System.out.printf("Looking up vault for file %s\n", file);
             final LoadingVaultLookupListener listener = new LoadingVaultLookupListener(session, this, keychain, prompt);
             if(file.attributes().getVault() != null) {
+				System.out.println("Getting vault from the file itself.");
                 return listener.load(file.attributes().getVault(), DEFAULT_MASTERKEY_FILE_NAME, DEFAULT_PEPPER);
             }
             final Path directory = file.getParent();
             if(directory.attributes().getVault() != null) {
+				System.out.println("Getting vault from the immediate parent of the file.");
                 return listener.load(directory.attributes().getVault(), DEFAULT_MASTERKEY_FILE_NAME, DEFAULT_PEPPER);
             }
+			System.out.println("Neither the file nor any of its parents yielded a vault.");
         }
         return Vault.DISABLED;
     }

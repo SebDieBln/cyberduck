@@ -399,6 +399,7 @@ public class PathAttributes extends Attributes implements Serializable {
     }
 
     public void setVault(final Path vault) {
+		System.out.printf("setting property vault to %s\n", vault);
         this.vault = vault;
     }
 

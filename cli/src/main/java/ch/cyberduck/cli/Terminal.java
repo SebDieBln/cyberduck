@@ -399,6 +399,7 @@ public class Terminal {
     }
 
     protected Exit list(final SessionPool session, final Path remote, final boolean verbose) {
+		System.out.printf("LIST is working on path %s\n", remote.toString());
         final SessionListWorker worker = new SessionListWorker(cache, remote,
             new TerminalListProgressListener(reader, verbose));
         final SessionBackgroundAction<AttributedList<Path>> action = new TerminalBackgroundAction<AttributedList<Path>>(

@@ -47,12 +47,14 @@ public class SessionListWorker extends Worker<AttributedList<Path>> {
 
     @Override
     public AttributedList<Path> run(final Session<?> session) throws BackgroundException {
+		System.out.printf("SessionListWorker is working on path %s\n", directory.toString());
         try {
             if(this.isCached()) {
                 final AttributedList<Path> list = cache.get(directory);
                 listener.chunk(directory, list);
                 return list;
             }
+			System.out.println("SessionListWorker uncached");
             final ListService service = session.getFeature(ListService.class).withCache(cache);
             return service.list(directory, listener);
         }
